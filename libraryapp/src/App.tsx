@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+
+import { useAxios } from "./Hooks/useAxios";
+import {CartContextProvider} from "./Context/CartContext";
+import { AppRouter } from "./router/App.router";
+import { withAxiosIntercepted } from "./Hooks/withAxiosInterceptor";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DrawerContextProvider } from "./Context/DrawerContext";
+import { UserContextProvider } from "./Context/UserContext";
+import {useState} from "react";
+import {BookDto} from "./Components/Book/BookDto";
+import {SearchContextProvider} from "./Context/SearchContext";
+
 
 function App() {
+
+
+
+  useAxios();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     <UserContextProvider>
+         <CartContextProvider>
+        < DrawerContextProvider>
+            <SearchContextProvider>
+            <AppRouter />
+            </SearchContextProvider>
+            <ToastContainer/>
+        </DrawerContextProvider>
+         </CartContextProvider>
+    </UserContextProvider>
     </div>
   );
-}
 
-export default App;
+}
+export default withAxiosIntercepted(App);
